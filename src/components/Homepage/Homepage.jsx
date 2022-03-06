@@ -3,7 +3,6 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  ListSubheader,
   IconButton,
   Container,
   Box,
@@ -14,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import InfoIcon from '@mui/icons-material/Info';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Loader from '../Loader';
 
 const useStyles = makeStyles((theme) => ({
   pagination: {
@@ -50,24 +50,26 @@ const Homepage = () => {
       <Box mt={5}>
         {process.env.REACT_APP_TMDB_API_KEY !== undefined ? (
           <>
-            <ImageList cols={5} sx={{ margin: 'auto' }}>
-              {moviesData.results?.map((item) => (
-                <Link to={`movie/${item.id}`}>
-                  <ImageListItem className={classes.movieItem} key={item.id}>
-                    <img src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} alt={item.title} loading='lazy' />
-                    <ImageListItemBar
-                      title={item.title}
-                      subtitle={item.vote_average}
-                      actionIcon={
-                        <IconButton sx={{ color: 'rgba(255, 255, 255, 0.54)' }} aria-label={`info about ${item.title}`}>
-                          <InfoIcon />
-                        </IconButton>
-                      }
-                    />
-                  </ImageListItem>
-                </Link>
-              ))}
-            </ImageList>
+            <Loader dataLoaded={moviesData !== undefined}>
+              <ImageList cols={5} sx={{ margin: 'auto' }}>
+                {moviesData.results.map((item, idx) => (
+                  <Link key={idx} to={`movie/${item.id}`}>
+                    <ImageListItem className={classes.movieItem} key={item.id}>
+                      <img src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} alt={item.title} loading='lazy' />
+                      <ImageListItemBar
+                        title={item.title}
+                        subtitle={item.vote_average}
+                        actionIcon={
+                          <IconButton sx={{ color: 'rgba(255, 255, 255, 0.54)' }} aria-label={`info about ${item.title}`}>
+                            <InfoIcon />
+                          </IconButton>
+                        }
+                      />
+                    </ImageListItem>
+                  </Link>
+                ))}
+              </ImageList>
+            </Loader>
             <Box
               sx={{
                 '& > *': {
@@ -80,7 +82,7 @@ const Homepage = () => {
             >
               <Pagination
                 className={classes.pagination}
-                count={moviesData.total_pages}
+                count={moviesData.total_pages > 500 ? 500 : moviesData.total_pages}
                 page={page}
                 onChange={handlePageChange}
                 showFirstButton

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Loader from '../Loader';
-import { Box } from '@mui/material';
 
 const Movie = (props) => {
   const params = useParams();
@@ -19,10 +18,12 @@ const Movie = (props) => {
       fetchMovieData(process.env.REACT_APP_TMDB_API_KEY, params.movieId);
     }
   }, [params.movieId]);
-  console.log(movieData);
+  const loaded = movieData !== undefined;
   return (
-    <Loader dataLoaded={undefined}>
-      <Box>{movieData?.bugdet}</Box>
+    <Loader dataLoaded={loaded}>
+      {loaded &&
+        <span>{movieData.bugdet}</span>
+      }
     </Loader>
   );
 };

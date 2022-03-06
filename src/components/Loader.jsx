@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
 
 const Loader = ({ dataLoaded, children }) => {
-  return <Box sx={{ display: 'flex' }}>{dataLoaded === undefined ? <CircularProgress /> : children}</Box>;
+  const [spinner, setSpinner] = useState(true);
+
+  useEffect(() => {
+    if (dataLoaded === true) {
+      setSpinner(false);
+    };
+  }, [dataLoaded]);
+  if (spinner === false) {
+    return children;
+  } else {
+    return <CircularProgress />;
+  }
 };
 
 export default Loader;
