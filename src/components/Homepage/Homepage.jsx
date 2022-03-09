@@ -35,7 +35,7 @@ const Homepage = () => {
 
   const fetchMovies = async (apiKey, page) => {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=${page}`
+      `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=pl-PL&page=${page}`
     );
     setMoviesData(response.data);
   };

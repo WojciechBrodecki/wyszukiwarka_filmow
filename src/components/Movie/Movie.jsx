@@ -9,7 +9,7 @@ const Movie = (props) => {
   const [movieData, setMovieData] = useState();
 
   const fetchMovieData = async (apiKey, movieId) => {
-    const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=en-US`);
+    const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=pl-PL`);
     setMovieData(response.data);
   };
 
@@ -27,7 +27,7 @@ const Movie = (props) => {
         }}>
           <img alt='poster' className='singleMoviePoster' src={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2/${movieData?.poster_path}`}/>
         <div className='singleMovieData'>
-          <div className='movieTitle'>{movieData?.original_title} ({movieData?.release_date?.split('-')[0]})</div>
+          <div className='movieTitle'>{movieData?.title} ({movieData?.release_date?.split('-')[0]})</div>
           <div>{movieData?.release_date}</div>
           <div className='overviewTitle'>Overview:</div>
           <div>{movieData?.overview}</div>
