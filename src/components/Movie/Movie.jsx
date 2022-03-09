@@ -18,12 +18,21 @@ const Movie = (props) => {
       fetchMovieData(process.env.REACT_APP_TMDB_API_KEY, params.movieId);
     }
   }, [params.movieId]);
-  const loaded = movieData !== undefined;
   return (
-    <Loader dataLoaded={loaded}>
-      {loaded &&
-        <span>{movieData.bugdet}</span>
-      }
+    <Loader dataLoaded={movieData !== undefined}>
+      {console.log(movieData)}
+      <div className='singleMovieContainer'
+        style={{
+          backgroundImage: `url("https://themoviedb.org/t/p/w1920_and_h800_multi_faces/${movieData?.backdrop_path}")`
+        }}>
+          <img alt='poster' className='singleMoviePoster' src={`https://www.themoviedb.org/t/p/w300_and_h450_bestv2/${movieData?.poster_path}`}/>
+        <div className='singleMovieData'>
+          <div className='movieTitle'>{movieData?.original_title} ({movieData?.release_date?.split('-')[0]})</div>
+          <div>{movieData?.release_date}</div>
+          <div className='overviewTitle'>Overview:</div>
+          <div>{movieData?.overview}</div>
+        </div>
+      </div>
     </Loader>
   );
 };

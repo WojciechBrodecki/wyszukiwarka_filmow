@@ -50,9 +50,9 @@ const Homepage = () => {
       <Box mt={5}>
         {process.env.REACT_APP_TMDB_API_KEY !== undefined ? (
           <>
-            <Loader dataLoaded={moviesData !== undefined}>
-              <ImageList cols={5} sx={{ margin: 'auto' }}>
-                {moviesData.results.map((item, idx) => (
+            <ImageList cols={5} sx={{ margin: 'auto' }}>
+              <Loader dataLoaded={moviesData.length !== 0}>
+                {moviesData.results?.map((item, idx) => (
                   <Link key={idx} to={`movie/${item.id}`}>
                     <ImageListItem className={classes.movieItem} key={item.id}>
                       <img src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} alt={item.title} loading='lazy' />
@@ -68,8 +68,8 @@ const Homepage = () => {
                     </ImageListItem>
                   </Link>
                 ))}
-              </ImageList>
-            </Loader>
+              </Loader>
+            </ImageList>
             <Box
               sx={{
                 '& > *': {
